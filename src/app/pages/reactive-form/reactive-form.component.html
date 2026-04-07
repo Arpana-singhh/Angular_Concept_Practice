@@ -1,0 +1,129 @@
+<div class="form-wrapper">
+    <div class="form-card">
+      <h2>User Registration</h2>
+  
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+  
+        <!-- BASIC INFO -->
+        <div class="form-section">
+          <h3>Basic Info</h3>
+  
+          <div class="form-group">
+            <label>Name</label>
+            <input type="text" formControlName="name" />
+            <span class="error" *ngIf="form.get('name')?.touched && form.get('name')?.invalid">
+              Name is required
+            </span>
+          </div>
+  
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" formControlName="email" />
+            <span class="error" *ngIf="form.get('email')?.touched && form.get('email')?.invalid">
+              Enter valid email
+            </span>
+          </div>
+  
+          <div class="form-row">
+            <div class="form-group">
+              <label>Password</label>
+              <input type="password" formControlName="password" />
+            </div>
+  
+            <div class="form-group">
+              <label>Confirm Password</label>
+              <input type="password" formControlName="confirmPassword" />
+            </div>
+          </div>
+  
+          <span class="error" *ngIf="form.errors?.['mismatch'] && form.touched">
+            Passwords do not match
+          </span>
+  
+          <div class="form-row">
+            <div class="form-group">
+              <label>Age</label>
+              <input type="number" formControlName="age" />
+            </div>
+  
+            <div class="form-group">
+              <label>Gender</label>
+              <div class="radio-group">
+                <label><input type="radio" value="male" formControlName="gender" /> Male</label>
+                <label><input type="radio" value="female" formControlName="gender" /> Female</label>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <!-- SKILLS -->
+        <div class="form-section">
+          <h3>Skills</h3>
+  
+          <div class="skill-add">
+            <input type="text" #skillInput placeholder="Enter skill" />
+            <button type="button" (click)="addSkill(skillInput.value); skillInput.value=''">
+              Add
+            </button>
+          </div>
+  
+          <div class="skill-list">
+            <span class="skill-tag" *ngFor="let skill of skills.controls; let i = index">
+              {{ skill.value }}
+              <i class="remove" (click)="removeSkill(i)">×</i>
+            </span>
+          </div>
+        </div>
+  
+        <!-- EDUCATION -->
+        <div class="form-section">
+          <h3>Education</h3>
+  
+          <div formArrayName="education">
+            <div
+              class="edu-card"
+              *ngFor="let edu of education.controls; let i = index"
+              [formGroupName]="i"
+            >
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Degree</label>
+                  <input type="text" formControlName="degree" />
+                </div>
+  
+                <div class="form-group">
+                  <label>College</label>
+                  <input type="text" formControlName="college" />
+                </div>
+  
+                <div class="form-group">
+                  <label>Year</label>
+                  <input type="number" formControlName="year" />
+                </div>
+              </div>
+  
+              <button type="button" class="delete-btn" (click)="removeEducation(i)">
+                Remove
+              </button>
+            </div>
+          </div>
+  
+          <button type="button" class="add-btn" (click)="addEducation()">
+            + Add Education
+          </button>
+        </div>
+  
+        <!-- ACTIONS -->
+        <div class="form-actions">
+          <button type="button" class="secondary" (click)="loadDummyData()">
+            Load Dummy
+          </button>
+          <button type="button" class="secondary" (click)="form.reset()">
+            Reset
+          </button>
+          <button type="submit" class="primary">Submit</button>
+        </div>
+  
+      </form>
+    </div>
+  </div>
