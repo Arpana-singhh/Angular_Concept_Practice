@@ -1,1 +1,110 @@
-<p>template-form works!</p>
+<form #userForm="ngForm" (ngSubmit)="onSubmit()">
+  <input
+    type="text"
+    placeholder="Name"
+    name="name"
+    required
+    [(ngModel)]="user.name"
+  >
+
+  <input
+    type="email"
+    placeholder="Email"
+    name="email"
+    required
+    email
+    [(ngModel)]="user.email"
+  >
+
+  <input
+    type="text"
+    placeholder="Phone"
+    name="phone"
+    required
+    pattern="^[0-9]{10}$"
+    [(ngModel)]="user.phone"
+  >
+
+  <label>
+    <input
+      type="radio"
+      value="Male"
+      name="gender"
+      required
+      [(ngModel)]="user.gender"
+    >Male
+  </label>
+  <label>
+    <input
+      type="radio"
+      value="Female"
+      name="gender"
+      required
+      [(ngModel)]="user.gender"
+    >Female
+  </label>
+
+  <textarea
+    placeholder="Address"
+    name="address"
+    required
+    [(ngModel)]="user.address"
+  ></textarea>
+
+  <input type="date" name="dob" required [(ngModel)]="user.dob">
+
+  <input type="text" placeholder="City" name="city" required [(ngModel)]="user.city">
+
+  <input type="text" placeholder="Country" name="country" required [(ngModel)]="user.country">
+
+  <input type="file" (change)="onFileChange($event, 'profilePhoto')">
+
+  <input
+    type="number"
+    placeholder="Experience (Years)"
+    name="experience"
+    required
+    min="0"
+    [(ngModel)]="user.experience"
+  >
+
+  <input
+    type="text"
+    placeholder="Current Job Title"
+    name="currentJobTitle"
+    [(ngModel)]="user.currentJobTitle"
+  >
+
+  <input
+    type="text"
+    placeholder="Company Name"
+    name="companyName"
+    [(ngModel)]="user.companyName"
+  >
+
+  <!-- Skills (Multi Select Checkbox) -->
+  <div *ngFor="let skill of skillOptions">
+    <label>
+      <input
+        type="checkbox"
+        [value]="skill"
+        [checked]="isSkillSelected(skill)"
+        (change)="onSkillChange($event)"
+      >
+      {{ skill }}
+    </label>
+  </div>
+
+  <!-- Skill Level -->
+  <select name="primarySkillLevel" required [(ngModel)]="user.primarySkillLevel">
+    <option value="">Select Level</option>
+    <option *ngFor="let level of levels" [value]="level">
+      {{ level }}
+    </option>
+  </select>
+
+  <!-- Resume -->
+  <input type="file" (change)="onFileChange($event, 'resume')">
+
+  <button type="submit" [disabled]="userForm.invalid">Submit</button>
+</form>
